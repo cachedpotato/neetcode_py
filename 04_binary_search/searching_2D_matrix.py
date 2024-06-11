@@ -42,10 +42,44 @@ def search_matrix(target, matrix) -> bool:
     
     return False
 
+def search_matrix_cleaner(target, matrix) -> bool:
+    #a better way of finding the row the target resides in
+    #when do we know we found the row?
+    #1) when the previous row's max value is smaller than target
+    #2) when the next row's min value is bigger than target
+    l, r = 0, len(matrix) - 1
+    target_row = -1
+    while l <= r:
+        split = l + (r - l) // 2
+        if matrix[split][0] > target:
+            #split is too big
+            r -= 1
+        elif matrix[split][-1] < target:
+            #split is too small
+            l += 1
+        else:
+            target_row = split
+            #we got the row!
+            break
+    if target_row == -1: return False
+    
+    l, r = 0, len(matrix[target_row]) - 1
+    while l <= r:
+        split = l + (r - l) // 2
+        if matrix[target_row][split] < target:
+            l = split + 1
+        elif matrix[target_row][split] > target:
+            r = split - 1
+        else:
+            return True
+        
+    return False
+        
+
 def main():
     matrix = [[1,2,4,8],[10,11,12,13],[14,20,30,40]]
     target = 10
-    print("target is in matrix: {}".format(search_matrix(target, matrix)))
+    print("target is in matrix: {}".format(search_matrix_cleaner(target, matrix)))
 
 if __name__ == "__main__":
     main()
