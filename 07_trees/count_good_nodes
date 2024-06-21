@@ -1,0 +1,75 @@
+from typing import Optional
+class TreeNode:
+  def __init__(self, val=0, left=None, right=None) -> None:
+    self.val = val
+    self.left = left
+    self.right = right
+
+class Solution:
+  def goodNodes(self, root: TreeNode) -> int:
+    #We need to keep track of
+    #the maximum value of dfs path
+    #if current value >= max: res+1 and update res
+    if not root: return 0
+    res = [0]
+    maxVal = -101
+
+    #dfs with max value tracking
+    def dfs(node: TreeNode, v: int):
+      if not node:
+        return
+      
+      stack = [node]
+      n = stack[-1]
+      
+      #max value update
+      if n.val >= v:
+        res[0] += 1
+        v = n.val
+      
+      #regular dfs stuff
+      if n.left:
+        stack.append(n.left)
+        dfs(n.left, v)
+        stack.pop()
+
+      if n.right:
+        stack.append(n.right)
+        dfs(n.right, v)
+        stack.pop()
+      
+    dfs(root, maxVal)
+
+    return res[0]
+  
+  def goodNodesEfficient(self, root: TreeNode) -> int:
+    #We don't need stacks, actually
+    #Recall the max_depth.py where we only needed 3 lines for DFS
+    #use that but now with max value tracking
+
+    #what we're trying to return is the number of "good nodes"
+    #in max_height: returning the depth
+    # 1 + max(dfs(l), dfs(r))
+    # what we're trying to return here exactly is:
+    # the sum of the number of "good nodes" in path
+
+    def dfs(node: TreeNode, v: int):
+      if not node:
+        return 0
+      
+      #res = 0
+      #if node.val >= v:
+      #  v = node.val
+      #  res += 1
+
+      #This is more compackt
+      res = 1 if node.val > v else 0
+      v = max(node.val, v)
+      
+      #the total number of good nodes:
+      #current + left + right
+      res += dfs(node.left, v)
+      res += dfs(node.right, v)
+      return res
+    
+    return dfs(root, root.val)
