@@ -53,7 +53,7 @@ class Solution:
     n = 0
     stack = []
     curr = root
-    while curr and stack:
+    while curr or stack:
 
       #step 1. traverse left
       while curr:
