@@ -5,6 +5,12 @@ def subsets(nums):
   #This can be interpreted as a depth n tree with 2 branches at each levvel
   #Backtracking in binary tree > dfs
 
+  #BACKTRACKING TIP
+  #WHATEVER GETS APPENDED MUST BE REMOVED
+  #AND VICE VERSA
+  #EX) If we appended something into the curr array
+  #for the next branch we need to pop it out
+
   res = []
   curr = []
   n = len(nums)
