@@ -59,8 +59,6 @@ def letterCombinationsOptimized(digits: str):
   return res
 
 
-
-
 def main():
   digits = "34"
   print("{}".format(", ".join(["\"{}\"".format(r) for r in letterCombinations(digits)])))
